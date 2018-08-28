@@ -1,0 +1,153 @@
+---
+title: "### A REPORT ON POLIO AND RESPIRATORY INFECTION AMONG THE RESIDENTS OF GESARETON DISTRICT IN LANDMACHARIA"
+author: Kennedy Mwangi, Jennifer Mutisya
+output: html_notebook
+---
+
+
+#### Background Information
+
+***
+
+Gesareton district in Esoh bay region of Landmacharia has experienced an increase in the population because of people moving to its cities resulting to the problems of poor nutrition, overcrowding, and poor sanitation. The district has also registered cases of polio and respiratory infection among its residents. The goal of this report is to communicate the findings from statistical data analysis performed on the data provided by the M&E Officer, Dr. G. Kenneth, about polio and respiratory infection in Gesareton.
+
+Categorical data on polio and respiratory infection were provided in tabulated form and the variables concerning the diseases and gender were coded. The were 100 observations and the data collected included name of the patient, age, sex, respiratory results, polio diagnosis date, polio diagnosis outcome and the polio vaccination doses given. 
+
+There are several issues noted with the data. Firstly, the country is called Landmacharia and there is also information of Seretiland which is also a country. It is not clear whether these are two countries or Landmacharia is the country in Seretiland. Secondly, there are missing entries in the tabulated data in Age and Polio diagnosis as well as missing data for polio vaccination appropriately coded as 9. Thirdly, the variable coding legend is redundant in giving both 999 and 9 as the code for missing data in polio vaccination and does not define code 3 for Sex variable. Lastly, there are issues with basic data concerning the residents. For instance, there is also a problem in some of the years quoted in the age. For example, an individual being 999 or 337 years old. Additionally, the name of the patients (given name and family name) appear repeatedly for a given patient appearing as if the several data collected concerned the same patient yet they were different patients.
+
+#### Results and discussion
+
+***
+
+To prepare the data for analysis, whole observations with blank entries were excluded from the data which affected 4 observations. Similarly, the rows/observations that had incorrect age were also excluded from the data and affected 5 observations and the row that had the undefined sex was also excluded affecting 1 row. Finally, 17 observations with missing data and 2 observations on uncertainty in polio diagnosis were left out from data analysis. In total, 26 observations were affected by anomalies that existed in the data leaving 74 observation which were sufficient for statistical data analysis. Data analysis was carried out using R software.
+
+The data that was collected were of residents within the age group of between 1 and 18 years who consisted of 62% male and 38% female. Majority of the children (50%) are aged 4 to 7 years while those aged between 1 to 3 years are 18%, 8 to 12 years are 14% and 13 to 15 years are 15% indicating a relative distribution between these ages. Those aged between 16 to 19 years were the least at 4% (Figure 1).
+
+```{r}
+barplot(title,
+        main = "Age distribution",
+        xlab = "Age Categories (yrs)", ylab = "No. of Residents",
+        ylim = c(0, 40),
+        beside = TRUE,
+        col = c("black", "light gray", "dark blue", "magenta", "brown"),
+        names.arg = c("0-3", "4-7", "8-11", "12-15", "16-19"))
+```
+
+```{r}
+lbls1 <- paste(names(pctftSex), "\n", pctftSex, sep = "")
+pie(pctftSex, labels= lbls1,
+    main = "Gender distribution in Gesareton")
+```
+
+**Figure 1:** Patient and age distribution among residents of Gesareton District
+
+97% of the children have been diagnosed with polio while only 3% were found negative for polio irrespective of being vaccinated for polio (Figure 2). Additionally, all the children had symptoms for respiratory infection with severe lower Acute Respiratory Infection (ARI) (56%) being prevalent followed by Asthma at 30% and mild Acute Respiratory Infection (ARI) at 14% (Figure 2 below).
+
+Surprisingly, 42% of children who received 3 doses of polio vaccine had polio-like paralysis which is higher than children who had not been vaccinated at all (36%) (Figure 3).
+
+```{r}
+lbls2 <- paste(names(pctftpolDia), "\n", pctftpolDia, sep = "")
+pie(pctftpolDia, labels= lbls2,
+    main = "Polio Diagnosis frequency in Gesareton",
+    col = c("blue", "red"))
+```
+
+Polio Diagnosis in Gesareton district
+
+```{r}
+#Respiratory results distribution Pie chart
+lbls3 <- paste(names(pctftrespRes), "\n", pctftrespRes, sep = "")
+pie(pctftrespRes, labels= lbls3,
+    main = "Respiratory results distribution",
+    col = c("Blue", "Purple", "orange", "Red"))
+```
+
+**Figure 2:** Respiratory Results
+
+```{r}
+barplot(polDiaPolVac,
+        main="Polio Diagnosis on Polio Vaccination",
+        xlab = "No. of Doses", ylab = "No. of Residents",
+        ylim = c(0, 35),
+        col = c("purple", "black"),
+        legend = rownames(polDiaPolVac), beside = TRUE,
+        legend.text = c("Yes", "No"),
+        args.legend = list(x = "topleft", inset = .05, title = "Polio Diagnosis"),
+        names.arg = c("No Dose","1 Dose","2 Doses","3 Doses"))
+```
+
+**Figure 3:** Residents who received polio vaccine but were diagnosed with Polio
+
+Children who were diagnosed with polio and had severe lower ARI which is the prevalent form of respiratory infection, were 58% followed by 32% for Asthma and 10 % for mild ARI as shown in figure 4 below.
+
+```{r}
+barplot(polDiaResp,
+        main="Polio Diagnosis on Respiratory infection",
+        xlab = "Respiratory Results", ylab = "No. of Residents",
+        ylim = c(0, 50),
+        col = c("red", "blue"),
+        legend = rownames(polDiaResp), beside = TRUE,
+        legend.text = c("Positive", "Negative"),
+        args.legend = list(x = "topleft", inset = .05, title = "Polio Diagnosis"),
+        names.arg = c("No Symptoms", "Mild ARI", "Severe Lower ARI", "Asthma"))
+```
+
+**Figure 4:** Number of residents positive for polio and had a form of respiratory infection.
+
+```{r}
+barplot(respResPolioVac,
+        main="Respiratory Results on Polio Vaccination",
+        xlab = "Polio Vaccination (No. of Doses)", ylab = "No. of Residents",
+        ylim = c(0, 25),
+        col = c("red", "green", "blue", "gray"),
+        legend = rownames(respResPolioVac), beside = TRUE,
+        legend.text = c("No Symptoms", "Mild ARI", "Severe Lower ARI", "Asthma"),
+        args.legend = list(x = "topleft", inset = .05, title = "Respiratory Results"),
+        names.arg = c("0 Dose", "1 Dose", "2 Dose", "3 Dose"))
+```
+
+**Figure 5:** Number of residents vaccinated and had respiratory infection
+
+A test of independence between variables was carried out to determine whether the various variable were dependent or independent. Chi squared test of independence could not be carried out for some of the variables because the expected values of the cells were less than 5 and thus violates an assumptions for chi square test of independence. Instead, the maximum likelihood ratio Chi square test was used.
+
+The following variables were found to be independent (P> 0.05): Polio vaccination and polio diagnosis (p-value 0.2831), gender and polio diagnosis (p-value 0.1845), polio vaccination and respiratory results (p-value 0.6751), gender and respiratory results (p-value 0.4225), polio diagnosis and respiratory results (p-value 0.4134).
+
+The p-values show that there is no relationship between the two diseases, polio-like paralysis and respiratory infection, among the screened residents. The diseases are occurring independently. Additionally, the respiratory infection is not dependent on polio vaccination. The p-value also show independence between polio vaccination and polio diagnosis (p-value 0.2831) which indicates that polio vaccine plays no role in preventing the polio-like paralysis. Polio diagnosis and respiratory infection are independent of gender. 
+
+
+#### Conclusion and Recommendation
+
+***
+
+Given that there is overcrowding, poor health and sanitation in Gesareton district, this could be driving the spread of respiratory infection. However, respiratory infection has only been observed in the data pertaining to residents below 18 years and more screening needs to be done in the population to include older age groups.
+
+There is no relationship between the respiratory infection and polio-like paralysis and therefore the two diseases occur independently. Occurrence of polio-like paralysis on children previously vaccinated could mean that the polio vaccine used to vaccinate them had no efficacy or that there is a new disease causing agent. The efficacy of the vaccine previously administered should be investigated. However, the polio-like paralysis observed may also be caused by a new disease causing agent that needs to be controlled.
+
+Good recordkeeping is needed in order to have reliable data for health monitoring.  Double entry while entering data can solve issues of discrepancy and anomalies in the data. There is need for widespread monitoring of the population in order to obtain data from diverse age groups and also obtain timely data on the status of the spread of diseases.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
